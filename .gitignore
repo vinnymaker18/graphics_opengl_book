@@ -1,0 +1,6 @@
+bin/
+.DS_Store
+glew/
+glfw-3.3.6/
+glm/
+soil2/
