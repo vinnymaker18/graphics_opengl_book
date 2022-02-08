@@ -52,7 +52,7 @@ void display(GLFWwindow *window, double currentTime)
   glClear(GL_COLOR_BUFFER_BIT);
   glUseProgram(renderingProgram);
   glPointSize(30.0f);
-  glDrawArrays(GL_POINTS, 0, 1);
+  glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 int main(int argc, char **argv)
