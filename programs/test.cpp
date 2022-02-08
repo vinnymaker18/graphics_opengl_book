@@ -5,6 +5,7 @@
 #include "GLFW/glfw3.h"
 #include "SOIL2/SOIL2.h"
 #include "errors.h"
+#include "utils.h"
 
 #define numVAOS 1
 
