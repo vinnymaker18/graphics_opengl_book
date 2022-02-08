@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <cstring>
 
 #include "GL/glew.h"
 #include "glm/glm.hpp"
@@ -15,16 +17,8 @@ GLuint renderingProgram;
 GLuint vao[numVAOS];
 
 GLuint createShaderProgram() {
-  const char *vshaderSource = 
-    "#version 410 \n"
-    "void main(void) \n"
-    "{gl_Position = vec4(0.0, 0.0, 1.0, 1.0);}";
-
-  const char *fshaderSource = 
-    "#version 410 \n"
-    "out vec4 color; \n"
-    "void main(void) \n"
-    "{if (gl_FragCoord.x < 600) color = vec4(1, 1, 1, 1); else color = vec4(0, 0, 1, 1);}";
+  const char *vshaderSource = readShaderSource("shaders/first_vshader.vert").c_str();
+  const char *fshaderSource = readShaderSource("shaders/first_fshader.frag").c_str();
 
   GLuint vShader = glCreateShader(GL_VERTEX_SHADER);
   GLuint fShader = glCreateShader(GL_FRAGMENT_SHADER);
