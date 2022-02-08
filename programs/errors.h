@@ -1,3 +1,5 @@
+#pragma once
+
 bool checkOpenGLError();
 
 void printShaderLog(GLuint shader);
