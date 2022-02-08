@@ -17,8 +17,11 @@ GLuint renderingProgram;
 GLuint vao[numVAOS];
 
 GLuint createShaderProgram() {
-  const char *vshaderSource = readShaderSource("shaders/first_vshader.vert").c_str();
-  const char *fshaderSource = readShaderSource("shaders/first_fshader.frag").c_str();
+  string vshaderSourceStr = readShaderSource("shaders/first_vshader.vert");
+  string fshaderSourceStr = readShaderSource("shaders/first_fshader.frag");
+
+  const char *vshaderSource = vshaderSourceStr.c_str();
+  const char *fshaderSource = fshaderSourceStr.c_str();
 
   GLuint vShader = glCreateShader(GL_VERTEX_SHADER);
   GLuint fShader = glCreateShader(GL_FRAGMENT_SHADER);
