@@ -1,5 +1,15 @@
-Learning OpenGL programming by working through the [Computer Graphics Programming in OpenGL with C++](https://athena.ecs.csus.edu/~gordonvs/textC1E.html)
+Learning OpenGL programming by working through a couple of books.
 
-### General Notes
+1. [Computer Graphics Programming in OpenGL with C++](https://athena.ecs.csus.edu/~gordonvs/textC1E.html)
+2. [3D Computer Graphics: A Mathematical Introduction with (Modern) OpenGL](https://mathweb.ucsd.edu/~sbuss/MathCG2/)
 
-1. This is not intended to be reproducible on other machines.
+### Setup
+
+This is a MacOS specific setup. The requirements are
+
+1. OpenGL 4.1
+2. GLFW
+3. GLM
+4. GLEW
+
+OpenGL is provided by MacOS, while you'll likely need to compile the remaining 3 from sources.
