@@ -20,7 +20,7 @@ GLuint vao[numVAOS];
 
 // Keep PLANES odd, one for the central plane and rest equally divided b/w upper and lower 
 // hemispheres.
-const int PLANES = 21;
+const int PLANES = 99;
 const int POINTS_PER_PLANE = 30;
 
 void display(GLFWwindow *window, double currentTime)
@@ -31,10 +31,10 @@ void display(GLFWwindow *window, double currentTime)
   glUseProgram(renderingProgram);
 
   const double rad = 0.4, cx = 0, cy = 0, cz = 0;
-  for (int p = -(PLANES / 2);p < (PLANES / 2); p++) {
-    double seg = (rad) / (PLANES / 2);
-    double xc = cx, yc = cy, zc = cz + p * seg;
+  for (double p = -(PLANES / 2.0);p <= (PLANES / 2.0); p += 1.0) {
+    double seg = (rad) / (PLANES / 2.0);
     double h = seg * abs(p);
+    double xc = cx, yc = cy + seg * p, zc = cz;
     double rc = sqrt(rad * rad - h * h);
 
     double theta = 2 * M_PI / POINTS_PER_PLANE;
@@ -47,7 +47,7 @@ void display(GLFWwindow *window, double currentTime)
     GLuint offsetNP = glGetUniformLocation(renderingProgram, "POINTS");
 
     glProgramUniform1f(renderingProgram, offsetTheta, theta);
-    glProgramUniform1f(renderingProgram, offsetHR, h);
+    glProgramUniform1f(renderingProgram, offsetHR, rc);
     glProgramUniform1f(renderingProgram, offsetCX, xc);
     glProgramUniform1f(renderingProgram, offsetCY, yc);
     glProgramUniform1f(renderingProgram, offsetCZ, zc);
