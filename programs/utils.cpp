@@ -7,6 +7,7 @@
 
 using namespace std;
 
+// Useful typedefs.
 string readShaderSource(string filePath)
 {
   ifstream fin(filePath);
@@ -44,4 +45,46 @@ GLuint createShaderProgram(const char *vShaderSrcPath, const char *fShaderSrcPat
   glLinkProgram(vfProgram);
 
   return vfProgram;
+}
+
+void init(GLFWwindow* window, ShaderSourcePath vShader, ShaderSourcePath fShader, 
+    int numVAOS, GLuint *vao, GLuint& renderingProgram)
+{
+  renderingProgram = createShaderProgram(vShader, fShader);
+  glGenVertexArrays(numVAOS, vao);
+  glBindVertexArray(vao[0]);
+}
+
+void displayLoopMain(DisplayFunc display, ShaderSourcePath vShader, ShaderSourcePath fShader,
+    int numVAOS, GLuint *vao, GLuint& renderingProgram)
+{
+  if (!glfwInit()) {
+    exit(EXIT_FAILURE);
+  }
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+  GLFWwindow *window = glfwCreateWindow(600, 600, "Program 1", NULL, NULL);
+  int actualWidth = 100, actualHeight = 200;
+  glfwGetFramebufferSize(window, &actualWidth, &actualHeight);
+  glfwMakeContextCurrent(window);
+  glViewport(0, 0, actualWidth, actualHeight);
+  glewExperimental = GL_TRUE;
+  if (GLEW_OK != glewInit()) {
+    exit(EXIT_FAILURE);
+  }
+
+  glfwSwapInterval(1);
+
+  init(window, vShader, fShader, numVAOS, vao, renderingProgram);
+  while (!glfwWindowShouldClose(window)) {
+    display(window, glfwGetTime());
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+  }
+
+  glfwDestroyWindow(window);
+  glfwTerminate();
 }

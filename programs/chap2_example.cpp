@@ -9,20 +9,12 @@
 #include "errors.h"
 #include "utils.h"
 
-#define numVAOS 1
-
 using namespace std;
+
+#define numVAOS 1
 
 GLuint renderingProgram;
 GLuint vao[numVAOS];
-
-void init(GLFWwindow* window)
-{
-  renderingProgram = createShaderProgram("shaders/first_vshader.vert",
-                                         "shaders/first_fshader.frag");
-  glGenVertexArrays(numVAOS, vao);
-  glBindVertexArray(vao[0]);
-}
 
 void incr(float& x, float& inc)
 {
@@ -58,34 +50,7 @@ void display(GLFWwindow *window, double currentTime)
 
 int main(int argc, char **argv)
 {
-  if (!glfwInit()) {
-    exit(EXIT_FAILURE);
-  }
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-  GLFWwindow *window = glfwCreateWindow(600, 600, "Program 1", NULL, NULL);
-  int actualWidth = 100, actualHeight = 200;
-  glfwGetFramebufferSize(window, &actualWidth, &actualHeight);
-  glfwMakeContextCurrent(window);
-  glViewport(0, 0, actualWidth, actualHeight);
-  glewExperimental = GL_TRUE;
-  if (GLEW_OK != glewInit()) {
-    exit(EXIT_FAILURE);
-  }
-
-  glfwSwapInterval(1);
-
-  init(window);
-  while (!glfwWindowShouldClose(window)) {
-    display(window, glfwGetTime());
-    glfwSwapBuffers(window);
-    glfwPollEvents();
-  }
-
-  glfwDestroyWindow(window);
-  glfwTerminate();
-  exit(EXIT_SUCCESS);
+  displayLoopMain(display, "shaders/first_vshader.vert", "shaders/first_fshader.frag",
+                  numVAOS, vao, renderingProgram);
+  return 0;
 };
