@@ -11,7 +11,7 @@ uniform int POINTS;
 void main(void)
 {
   float angle = theta * gl_VertexID;
-  float x = center_x + h_radius * sin(angle);
-  float y = center_x + h_radius * cos(angle);
+  float x = center_x + h_radius * cos(angle);
+  float y = center_y + h_radius * sin(angle);
   gl_Position = vec4(x, y, center_z, 1);
 }

@@ -26,17 +26,16 @@ const int POINTS_PER_PLANE = 30;
 void display(GLFWwindow *window, double currentTime)
 {
   glClear(GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glClearColor(1.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT);
   glUseProgram(renderingProgram);
 
   const double rad = 0.4, cx = 0, cy = 0, cz = 0;
-  for (int p = -(PLANES / 2);p < PLANES / 2; p++) {
+  for (int p = -(PLANES / 2);p < (PLANES / 2); p++) {
     double seg = (rad) / (PLANES / 2);
     double xc = cx, yc = cy, zc = cz + p * seg;
     double h = seg * abs(p);
     double rc = sqrt(rad * rad - h * h);
-    cout << xc << " " << yc << " " << zc << " " << rc << endl;
 
     double theta = 2 * M_PI / POINTS_PER_PLANE;
 
