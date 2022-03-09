@@ -13,75 +13,55 @@
 
 using namespace std;
 
+#define numVAOS 1
+
+GLuint renderingProgram;
+GLuint vao[numVAOS];
+
 // Keep PLANES odd, one for the central plane and rest equally divided b/w upper and lower 
 // hemispheres.
 const int PLANES = 21;
 const int POINTS_PER_PLANE = 30;
 
-pair<double*, double*> getSpherePoints(double cx, double cy, double cz, double rad)
+void display(GLFWwindow *window, double currentTime)
 {
+  glClear(GL_DEPTH_BUFFER_BIT);
+  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT);
+  glUseProgram(renderingProgram);
 
-  double *xcoords = new double[PLANES * POINTS_PER_PLANE];
-  double *ycoords = new double[PLANES * POINTS_PER_PLANE];
-  int index = 0;
-
+  const double rad = 0.4, cx = 0, cy = 0, cz = 0;
   for (int p = -(PLANES / 2);p < PLANES / 2; p++) {
     double seg = (rad) / (PLANES / 2);
     double xc = cx, yc = cy, zc = cz + p * seg;
     double h = seg * abs(p);
     double rc = sqrt(rad * rad - h * h);
+    cout << xc << " " << yc << " " << zc << " " << rc << endl;
 
     double theta = 2 * M_PI / POINTS_PER_PLANE;
-    for (int i = 0;i < POINTS_PER_PLANE; i++) {
-      double x = xc + rc * cos(theta);
-      double y = yc + rc * sin(theta);
 
-      xcoords[index] = x;
-      ycoords[index] = y;
-      index++;
-    }
+    GLuint offsetTheta = glGetUniformLocation(renderingProgram, "theta");
+    GLuint offsetCX = glGetUniformLocation(renderingProgram, "center_x");
+    GLuint offsetCY = glGetUniformLocation(renderingProgram, "center_y");
+    GLuint offsetCZ = glGetUniformLocation(renderingProgram, "center_z");
+    GLuint offsetHR = glGetUniformLocation(renderingProgram, "h_radius");
+    GLuint offsetNP = glGetUniformLocation(renderingProgram, "POINTS");
+
+    glProgramUniform1f(renderingProgram, offsetTheta, theta);
+    glProgramUniform1f(renderingProgram, offsetHR, h);
+    glProgramUniform1f(renderingProgram, offsetCX, xc);
+    glProgramUniform1f(renderingProgram, offsetCY, yc);
+    glProgramUniform1f(renderingProgram, offsetCZ, zc);
+    glProgramUniform1i(renderingProgram, offsetNP, POINTS_PER_PLANE);
+
+    glDrawArrays(GL_LINE_LOOP, 0, POINTS_PER_PLANE);
   }
-
-  return make_pair(xcoords, ycoords);
-}
-
-void init(GLFWwindow *window)
-{
-}
-
-void display(GLFWwindow *window, double currentTime)
-{
-  glClearColor(1.0, 0.0, 0.0, 1.0);
-  glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 }
 
 int main(int argc, char **argv)
 {
-  if (!glfwInit()) {
-    exit(EXIT_FAILURE);
-  }
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-  GLFWwindow *window = glfwCreateWindow(600, 600, "Sphere", NULL, NULL);
-  int actualWidth = 100, actualHeight = 200;
-  glfwGetFramebufferSize(window, &actualWidth, &actualHeight);
-  glfwMakeContextCurrent(window);
-  glViewport(0, 0, actualWidth, actualHeight);
-  glewExperimental = GL_TRUE;
-  if (GLEW_OK != glewInit()) {
-    exit(EXIT_FAILURE);
-  }
-
-  glfwSwapInterval(1);
-
-  init(window);
-  while (!glfwWindowShouldClose(window)) {
-    display(window, glfwGetTime());
-    glfwSwapBuffers(window);
-    glfwPollEvents();
-  }
-  return 0;
+  displayLoopMain(display,
+                  "shaders/sphere_vshader.vert",
+                  "shaders/sphere_fshader.frag",
+                  numVAOS, vao, renderingProgram);
 };
