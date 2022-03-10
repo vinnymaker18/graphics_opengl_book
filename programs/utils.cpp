@@ -44,6 +44,8 @@ GLuint createShaderProgram(const char *vShaderSrcPath, const char *fShaderSrcPat
   glAttachShader(vfProgram, fShader);
   glLinkProgram(vfProgram);
 
+  glDeleteShader(vShader);
+  glDeleteShader(fShader);
   return vfProgram;
 }
 

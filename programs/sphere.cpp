@@ -20,11 +20,19 @@ GLuint vao[numVAOS];
 
 // Keep PLANES odd, one for the central plane and rest equally divided b/w upper and lower 
 // hemispheres.
-const int PLANES = 99;
+const int PLANES = 41;
 const int POINTS_PER_PLANE = 30;
+
+const double eps = 0.009;
+double _rotate = 0;
 
 void display(GLFWwindow *window, double currentTime)
 {
+  glRotated(_rotate / M_PI * 180, 0.0, 0, 1.0);
+  _rotate += eps;
+  if (_rotate >= 2 * M_PI)
+    _rotate -= 2 * M_PI;
+
   glClear(GL_DEPTH_BUFFER_BIT);
   glClearColor(1.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT);
