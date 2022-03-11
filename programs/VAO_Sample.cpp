@@ -16,6 +16,8 @@ using namespace std;
 GLuint vao;
 GLuint renderingProgram;
 
+float hOffset = 0, incr = 0.02;
+
 void display(GLFWwindow *window, double curTime)
 {
   double gray = 0.75;
@@ -26,7 +28,13 @@ void display(GLFWwindow *window, double curTime)
   double blueValue = cos(curTime) / 2.0f + 0.5f;
   double redValue = cos(2 * curTime + 3) / 2.0f + 0.5f;
   GLuint inputColorLocation = glGetUniformLocation(renderingProgram, "inputColor");
+  GLuint hOffsetLocation = glGetUniformLocation(renderingProgram, "hOffset");
   glUniform4f(inputColorLocation, redValue, greenValue, blueValue, 1.0);
+  glUniform1f(hOffsetLocation, hOffset);
+  hOffset += incr;
+  if (hOffset > 1 || hOffset < -1)
+    incr = -incr;
+
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
