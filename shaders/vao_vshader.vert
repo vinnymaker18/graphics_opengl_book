@@ -10,7 +10,7 @@ out vec2 TextCoord;
 uniform float hOffset;
 
 void main() {
-  fColor = vec3(0.2, 0.2, 0.2);
-  gl_Position = vec4(hOffset + aPos.x, -aPos.y, aPos.z, 1.0);
+  fColor = vec3(0.99, 0.99, 0.9);
+  gl_Position = vec4(hOffset + aPos.x, aPos.y, aPos.z, 1.0);
   TextCoord = textCoord;
 }

@@ -49,10 +49,10 @@ void configureVAO()
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
   // 4 vertices, 8 32-bit floating points each - 3 for coords, 3 for color, 2 for texture coords
-  float VERTICES[] = {-0.45, 0.45, 0.0, 1.0, 0.0, 0.0, 0, 1,
-                      -0.45, -0.45, 0.0, 0.0, 1.0, 0.0, 0, 0,
-                       0.45, -0.45, 0.0, 0.0, 0.0, 1.0, 1, 0,
-                       0.45, 0.45, 0.0, 0.5, 0.5, 0.5, 1, 1};
+  float VERTICES[] = {-0.45, 0.5, 0.0, 1.0, 0.0, 0.0, 0, 1,
+                      -0.45, -0.5, 0.0, 0.0, 1.0, 0.0, 0, 0,
+                       0.45, -0.5, 0.0, 0.0, 0.0, 1.0, 1, 0,
+                       0.45, 0.5, 0.0, 0.5, 0.5, 0.5, 1, 1};
 
   // Fill the VBO with vertex data.
   glBufferData(GL_ARRAY_BUFFER, sizeof(VERTICES), VERTICES, GL_STATIC_DRAW);
@@ -77,6 +77,7 @@ void configureVAO()
   glBindTexture(GL_TEXTURE_2D, texture);
 
   // load image data from a jpg file.
+  stbi_set_flip_vertically_on_load(true);
   int width, height, numChannels;
   unsigned char *data = stbi_load("images/pic.jpg", &width, &height, &numChannels, 0);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);

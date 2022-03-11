@@ -9,5 +9,5 @@ in vec2 TextCoord;
 uniform sampler2D ourTexture;
 
 void main() {
-  color = texture(ourTexture, TextCoord);
+  color = texture(ourTexture, TextCoord) * vec4(fColor, 1.0);
 }
