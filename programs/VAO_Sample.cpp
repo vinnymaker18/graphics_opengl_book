@@ -18,9 +18,15 @@ GLuint renderingProgram;
 
 void display(GLFWwindow *window, double curTime)
 {
-  glClear(GL_DEPTH_BUFFER_BIT);
-  glClearColor(1.0, 0.0, 0.0, 1.0);
-  glClear(GL_COLOR_BUFFER_BIT);
+  double gray = 0.75;
+  glClearColor(gray, gray, gray, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  double greenValue = sin(curTime) / 2.0f + 0.5f;
+  double blueValue = cos(curTime) / 2.0f + 0.5f;
+  double redValue = cos(2 * curTime + 3) / 2.0f + 0.5f;
+  GLuint inputColorLocation = glGetUniformLocation(renderingProgram, "inputColor");
+  glUniform4f(inputColorLocation, redValue, greenValue, blueValue, 1.0);
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
