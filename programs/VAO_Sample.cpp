@@ -21,7 +21,7 @@ void display(GLFWwindow *window, double curTime)
   glClear(GL_DEPTH_BUFFER_BIT);
   glClearColor(1.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT);
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 void configureVAO()
@@ -31,8 +31,8 @@ void configureVAO()
   glGenBuffers(1, &VBO);
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-  // 3 vertices, 3 32-bit floating points each.
-  float VERTICES[] = {-0.5, -0.5, 0, 0.5, -0.5, 0, 0, 0, 0};
+  // 4 vertices, 3 32-bit floating points each.
+  float VERTICES[] = {-0.5, -0.5, 0, 0.5, -0.5, 0, 0, 0, 0, 0, -1, 0};
 
   // Fill the VBO with vertex data.
   glBufferData(GL_ARRAY_BUFFER, sizeof(VERTICES), VERTICES, GL_STATIC_DRAW);
@@ -40,6 +40,13 @@ void configureVAO()
   // Enable vertex array attributes.
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
   glEnableVertexAttribArray(0);
+
+  // Create a single EBO and bind it.
+  GLuint EBO;
+  glGenBuffers(1, &EBO);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+  int indices[] = {0, 1, 2, 0, 1, 3};
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 }
 
 int main(int argc, char **argv)
