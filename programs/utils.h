@@ -12,6 +12,7 @@ using namespace std;
 // Useful typedefs.
 typedef void (*DisplayFunc)(GLFWwindow*, double);
 typedef const char *ShaderSourcePath;
+typedef void (*ConfigureVAOFunc)();
 
 // Read shader source from a file.
 string readShaderSource(string filePath);
@@ -20,5 +21,11 @@ string readShaderSource(string filePath);
 GLuint createShaderProgram(const char *vShaderSrcPath, const char *fShaderSrcPath);
 
 // Main render loop. Call this with different display functions and vertex/fragment shaders.
-void displayLoopMain(DisplayFunc display, ShaderSourcePath vShader, ShaderSourcePath fShader,
-    int numVAOS, GLuint *vao, GLuint &renderingProgram);
+void displayLoopMain(
+    DisplayFunc display,
+    ShaderSourcePath vShader,
+    ShaderSourcePath fShader,
+    int numVAOS,
+    GLuint *vao,
+    GLuint &renderingProgram,
+    ConfigureVAOFunc vaoFunc = nullptr);

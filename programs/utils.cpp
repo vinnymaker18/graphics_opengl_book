@@ -53,12 +53,13 @@ void init(GLFWwindow* window, ShaderSourcePath vShader, ShaderSourcePath fShader
     int numVAOS, GLuint *vao, GLuint& renderingProgram)
 {
   renderingProgram = createShaderProgram(vShader, fShader);
+  glUseProgram(renderingProgram);
   glGenVertexArrays(numVAOS, vao);
   glBindVertexArray(vao[0]);
 }
 
 void displayLoopMain(DisplayFunc display, ShaderSourcePath vShader, ShaderSourcePath fShader,
-    int numVAOS, GLuint *vao, GLuint& renderingProgram)
+    int numVAOS, GLuint *vao, GLuint& renderingProgram, ConfigureVAOFunc configureVAO)
 {
   if (!glfwInit()) {
     exit(EXIT_FAILURE);
@@ -81,6 +82,9 @@ void displayLoopMain(DisplayFunc display, ShaderSourcePath vShader, ShaderSource
   glfwSwapInterval(1);
 
   init(window, vShader, fShader, numVAOS, vao, renderingProgram);
+  if (configureVAO != nullptr) {
+    configureVAO();
+  }
   while (!glfwWindowShouldClose(window)) {
     display(window, glfwGetTime());
     glfwSwapBuffers(window);
