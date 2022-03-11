@@ -1,7 +1,8 @@
-Learning OpenGL programming by working through a couple of books.
+Learning OpenGL programming by working through a few books.
 
 1. [Computer Graphics Programming in OpenGL with C++](https://athena.ecs.csus.edu/~gordonvs/textC1E.html)
 2. [3D Computer Graphics: A Mathematical Introduction with (Modern) OpenGL](https://mathweb.ucsd.edu/~sbuss/MathCG2/)
+3. [Learn OpenGL programming](https://learnopengl.com)
 
 ### Setup
 
