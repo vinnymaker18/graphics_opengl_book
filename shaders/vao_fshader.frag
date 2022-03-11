@@ -1,8 +1,10 @@
 #version 410
 
 uniform vec4 inputColor;
+
+in vec3 fColor;
 out vec4 color;
 
 void main() {
-  color = inputColor.rgba;
+  color = vec4(fColor, 1.0);
 }
