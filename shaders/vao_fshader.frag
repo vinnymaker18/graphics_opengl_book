@@ -4,7 +4,10 @@ uniform vec4 inputColor;
 
 in vec3 fColor;
 out vec4 color;
+in vec2 TextCoord;
+
+uniform sampler2D ourTexture;
 
 void main() {
-  color = vec4(fColor, 1.0);
+  color = texture(ourTexture, TextCoord);
 }
